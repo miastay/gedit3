@@ -9,3 +9,5 @@ export const referenceMatrix = writable({
     celltypes: [],
     selectedCellTypes: []
 });
+
+export const collapseInputs = writable(false);

@@ -12,7 +12,7 @@
         <NavUl ulClass="flex flex-col p-4 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 text-lg font-medium">
             <NavLi href="/about">About</NavLi>
             <NavLi href="/">Read the Paper</NavLi>
-            <NavLi href="/cite">Cite GEDIT3</NavLi>
+            <NavLi href="/cite">Cite GEDIT</NavLi>
         </NavUl>
     </Navbar>
 </div>

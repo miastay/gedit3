@@ -1,23 +1,28 @@
 <script>
-
-    import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
-
+    import Mixture from './mixture.svelte';
+    import Reference from './reference.svelte';
+    import Results from './results.svelte';
+    import Settings from './settings.svelte';
 </script>
 
 <div class="main-container p-5">
-    <Breadcrumb aria-label="Default breadcrumb example">
+    <!-- <Breadcrumb aria-label="Default breadcrumb example">
         <BreadcrumbItem href="/" home>Select mixture</BreadcrumbItem>
         <BreadcrumbItem href="/">Choose reference</BreadcrumbItem>
         <BreadcrumbItem>Flowbite Svelte</BreadcrumbItem>
-    </Breadcrumb>
+    </Breadcrumb> -->
     <div class="carousel">
-        <slot />
+        <Mixture />
+        <Reference />
+        <Settings />
     </div>
+    <Results flipCollapse/>
 </div>
 
 <style lang="scss">
     .main-container {
-        height: 100%;
+        height: auto;
+        overflow-y: scroll;
         display: flex;
         flex-grow: 1;
         flex-direction: column;
@@ -25,8 +30,13 @@
         .carousel {
             display: flex;
             flex-direction: row;
+            justify-content: space-evenly;
             @apply gap-5;
-            height: 90%;
+            max-height: 90%;
+            height: max-content;
+            width: 100%;
+            scroll-snap-align: center;
         }
+        scroll-snap-type: y mandatory;
     }
 </style>

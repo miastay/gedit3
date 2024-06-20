@@ -1,21 +1,38 @@
 <script>
+    import { slide } from 'svelte/transition';
+    import { collapseInputs } from '../../store';
+
     export let number = 1;
     export let enabled = true;
     export let header = '';
+    export let full = false;
+    export let classStr = '';
+
+    export let flipCollapse = false;
+
 </script>
 
-<div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'}`}>
+<div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'} ${full ? 'full': ''} ${classStr} ${(flipCollapse ? !$collapseInputs : $collapseInputs) ? 'h-min' : 'h-[100%]'}`}>
     <div class="slide-header">
         <h1 class="font-bold text-3xl">{number ?? 1}</h1>
         <h2 class="text-2xl">{header}</h2>
+        <button on:click={() => $collapseInputs = !$collapseInputs}>collapser</button>
     </div>
-    <slot />
+    {#if (flipCollapse ? !$collapseInputs : $collapseInputs)}
+        <div transition:slide|local>
+            <slot />
+        </div>
+    {/if}
 </div>
 
 <style lang="scss">
     .slide-container {
-        height: 100%;
-        max-width: min(33%, 700px);
+        width: calc(1/3 * 100%);
+        max-width: calc(1/3 * 100%);
+        &.full {
+            max-width: 100%;
+            width: 100%;
+        }
         border: solid 1px;
         border-bottom: solid 10px;
         border-radius: 10px; 
@@ -33,6 +50,6 @@
         &.disabled {
             opacity: 40%;
         }
-        transition: width 0.2s ease;
+        transition: height 0.2s ease;
     }
 </style>
