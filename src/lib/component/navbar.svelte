@@ -23,6 +23,7 @@
         border-image-slice: 1;
         border-bottom: solid 5px;
         border-image-source: linear-gradient(to left, #743ad5, #d53a9d, #d5563a);
+        height: min-content;
         //border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
     }
 </style>

@@ -15,7 +15,7 @@
 <style lang="scss">
     .slide-container {
         height: 100%;
-        max-width: 70%;
+        max-width: min(33%, 700px);
         border: solid 1px;
         border-bottom: solid 10px;
         border-radius: 10px; 
@@ -33,5 +33,6 @@
         &.disabled {
             opacity: 40%;
         }
+        transition: width 0.2s ease;
     }
 </style>

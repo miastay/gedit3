@@ -1,21 +1,25 @@
 <script>
-    import Input from "../lib/component/input.svelte";
+    import Mixture from "../lib/component/mixture.svelte";
     import Main from "../lib/component/main.svelte";
     import Navbar from "../lib/component/navbar.svelte";
     import Slide from "../lib/component/slide.svelte";
+    import Reference from '../lib/component/reference.svelte';
+    import Settings from '../lib/component/settings.svelte';
 </script>
 
 <div class="content">
     <Navbar />
     <Main>
-        <Input />
+        <Mixture />
+        <Reference />
+        <Settings />
     </Main>
 </div>
 
 <style lang="scss">
     .content {
-        display: grid;
-        grid-template-rows: 1fr 8fr;
+        display: flex;
+        flex-direction: column;
         height: 100vh;
         max-height: 100vh;
     }
