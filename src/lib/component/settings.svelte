@@ -36,7 +36,7 @@
                             </div>
                         {/if}
                     </div>
-                    {#if !collapseCellTypes}
+                    {#if !collapseCellTypes && $referenceMatrix?.celltypes}
                         <div class="flex flex-row flex-grow-0 gap-2 flex-wrap max-w-[100%]">
                             {#each $referenceMatrix.celltypes.sort((a,b) => b < a) as cell}
                                 <Checkbox custom bind:group={$referenceMatrix.selectedCellTypes} value={cell}>

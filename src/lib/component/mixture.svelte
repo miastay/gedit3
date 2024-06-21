@@ -24,7 +24,7 @@
 
 </script>
 
-<Slide number="1" header="Select mixture">
+<Slide number="1" header="Select mixture" desc="Select an expression dataset with an unknown cell type mixture">
     <div class="container">
         <div class="tabs">
             <Tabs tabStyle="pill">

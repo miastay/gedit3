@@ -5,15 +5,19 @@
     export let number = 1;
     export let enabled = true;
     export let header = '';
+    export let desc = '';
     export let full = false;
     export let classStr = '';
 
 </script>
 
 <div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'} ${full ? 'full': ''} ${classStr}`}>
-    <div class="slide-header">
-        <h1 class="font-bold text-3xl">{number ?? 1}</h1>
-        <h2 class="text-2xl">{header}</h2>
+    <div class="flex flex-row items-center justify-between">
+        <div class="slide-header">
+            <h1 class="font-bold text-3xl">{number ?? 1}</h1>
+            <h2 class="text-2xl">{header}</h2>
+        </div>
+        <h4 class="text-gray-600">{desc}</h4>
     </div>
     <!-- {#if (flipCollapse ? !$collapseInputs : $collapseInputs)} -->
         <div transition:slide|local>
@@ -47,6 +51,7 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            justify-content: space-between;
             @apply gap-8;
             @apply mb-2;
         }

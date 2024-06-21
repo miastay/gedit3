@@ -91,7 +91,7 @@
     <p class="text-base flex flex-row items-center leading-relaxed text-gray-500 dark:text-gray-400"><BookOutline class="w-5 h-5 mr-2" /><a target="_blank" href={modalInfo.sourceRef}>{modalInfo.sourceRef}</a></p>
 </Modal>
 
-<Slide number="2" header="Choose reference" complete={$referenceMatrix !== null}>
+<Slide number="2" header="Choose reference" desc="Select a reference matrix of cell types to compute against">
     <button on:click={() => console.log($referenceMatrix.complete)}>xyz</button>
     <div class="container">
         <div class="tabs">
