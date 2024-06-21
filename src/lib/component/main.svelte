@@ -29,13 +29,13 @@
         @apply gap-5;
         .carousel {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: space-evenly;
+            align-items: center;
             @apply gap-5;
-            max-height: 90%;
+            //min-height: 70%;
             height: max-content;
             width: 100%;
-            scroll-snap-align: center;
         }
         scroll-snap-type: y mandatory;
     }

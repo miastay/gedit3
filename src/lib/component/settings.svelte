@@ -14,6 +14,7 @@
     export let next = false;
 
     let collapseCellTypes = false;
+    export let allowCollapse = false;
 
 </script>
 
@@ -23,8 +24,8 @@
             <div class="card w-[100%]">
                 {#if $referenceMatrix?.celltypes?.length !== 0}
                     <div class="flex flex-row justify-between mb-2">
-                        <button class="flex flex-row gap-2 items-center" on:click={() => collapseCellTypes = !collapseCellTypes}>
-                            <ChevronDownOutline class={`w-6 h-6 text-gray-700 dark:text-white ${collapseCellTypes ? 'up' : 'down'}`} />
+                        <button class="flex flex-row gap-2 items-center" on:click={() => { if(allowCollapse) collapseCellTypes = !collapseCellTypes } }>
+                            {#if allowCollapse} <ChevronDownOutline class={`w-6 h-6 text-gray-700 dark:text-white ${collapseCellTypes ? 'up' : 'down'}`} /> {/if}
                             <h3 class="text-lg">Reference Cell Types</h3>
                         </button>
                         {#if !collapseCellTypes}
@@ -52,10 +53,7 @@
                 <h3 class="text-lg">Run Settings</h3>
             </div>
         </div>
-        <div class="next">
-            <Button disabled={!next} size="xl" class={`${next ? 'bg-primary-600' : 'bg-gray-500'}`}>Next Step <ArrowRightOutline class="w-5 h-5 ms-2" /></Button>
-        </div>
-    </div>
+</div>
 </Slide>
 
 <style lang="scss">

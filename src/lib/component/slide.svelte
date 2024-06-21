@@ -8,27 +8,30 @@
     export let full = false;
     export let classStr = '';
 
-    export let flipCollapse = false;
-
 </script>
 
-<div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'} ${full ? 'full': ''} ${classStr} ${(flipCollapse ? !$collapseInputs : $collapseInputs) ? 'h-min' : 'h-[100%]'}`}>
+<div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'} ${full ? 'full': ''} ${classStr}`}>
     <div class="slide-header">
         <h1 class="font-bold text-3xl">{number ?? 1}</h1>
         <h2 class="text-2xl">{header}</h2>
-        <button on:click={() => $collapseInputs = !$collapseInputs}>collapser</button>
     </div>
-    {#if (flipCollapse ? !$collapseInputs : $collapseInputs)}
+    <!-- {#if (flipCollapse ? !$collapseInputs : $collapseInputs)} -->
         <div transition:slide|local>
             <slot />
         </div>
-    {/if}
+    <!-- {/if} -->
 </div>
 
 <style lang="scss">
     .slide-container {
-        width: calc(1/3 * 100%);
-        max-width: calc(1/3 * 100%);
+        &.row {
+            width: calc(1/3 * 100%);
+            max-width: calc(1/3 * 100%);
+        }
+        width: max(50%, 600px);
+        max-width: max(50%, 600px);
+        scroll-snap-align: center;
+        scroll-snap-type: mandatory;
         &.full {
             max-width: 100%;
             width: 100%;

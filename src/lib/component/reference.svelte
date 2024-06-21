@@ -4,9 +4,8 @@
     import Upload from "./upload.svelte";
 
     import { Button, Dropzone, Radio } from 'flowbite-svelte';
-    import { Tabs, TabItem } from 'flowbite-svelte';
 
-    import { ArrowRightOutline, DnaOutline, InfoCircleOutline, UploadSolid, UsersOutline } from 'flowbite-svelte-icons';
+    import { BookOutline, DnaOutline, InfoCircleOutline, UploadSolid, UsersOutline } from 'flowbite-svelte-icons';
     
     export let next = false;
 
@@ -86,13 +85,14 @@
 
 </script>
 
-<Modal title={modalInfo.name ?? ""} bind:open={showInfoModal} autoclose outsideclose>
-    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">{`Author: ${modalInfo.author}`}</p>
-    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">{`Assay type: ${modalInfo.type}`}</p>
-    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Original paper: <a target="_blank" href={modalInfo.sourceRef}>{modalInfo.sourceRef}</a></p>
+<Modal title={modalInfo.name ?? ""} bind:open={showInfoModal} autoclose outsideclose class="max-w-[40vw]">
+    <p class="text-base flex flex-row items-center leading-relaxed text-gray-500 dark:text-gray-400"><UsersOutline class="w-5 h-5 mr-2" />{`Author: ${modalInfo.author}`}</p>
+    <p class="text-base flex flex-row items-center leading-relaxed text-gray-500 dark:text-gray-400"><DnaOutline class="w-5 h-5 mr-2" />{`Assay type: ${modalInfo.type}`}</p>
+    <p class="text-base flex flex-row items-center leading-relaxed text-gray-500 dark:text-gray-400"><BookOutline class="w-5 h-5 mr-2" /><a target="_blank" href={modalInfo.sourceRef}>{modalInfo.sourceRef}</a></p>
 </Modal>
 
-<Slide number="2" header="Choose reference">
+<Slide number="2" header="Choose reference" complete={$referenceMatrix !== null}>
+    <button on:click={() => console.log($referenceMatrix.complete)}>xyz</button>
     <div class="container">
         <div class="tabs">
             <div class="tab">
@@ -118,9 +118,6 @@
                     {/each}
                 </div>
             </div>
-        </div>
-        <div class="next">
-            <Button disabled={!next} size="xl" class={`${next ? 'bg-primary-600' : 'bg-gray-500'}`}>Next Step <ArrowRightOutline class="w-5 h-5 ms-2" /></Button>
         </div>
     </div>
 </Slide>

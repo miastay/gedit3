@@ -7,7 +7,8 @@ export const referenceMatrix = writable({
     sourceRef: "sourceRef",
     dataRef: "dataRef",
     celltypes: [],
-    selectedCellTypes: []
+    selectedCellTypes: [],
+    complete: () => { return this.selectedCellTypes.length !== 0 }
 });
 
 export const collapseInputs = writable(false);
