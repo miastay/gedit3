@@ -9,9 +9,12 @@
     export let full = false;
     export let classStr = '';
 
+    export let bordered = false;
+    export let shadowed = false;
+
 </script>
 
-<div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'} ${full ? 'full': ''} ${classStr}`}>
+<div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'} ${full ? 'full': ''} ${classStr} ${bordered ? 'bordered' : ''} ${shadowed ? 'shadowed' : ''}`}>
     <div class="flex flex-row items-center justify-between">
         <div class="slide-header">
             <h1 class="font-bold text-3xl">{number ?? 1}</h1>
@@ -32,16 +35,21 @@
             width: calc(1/3 * 100%);
             max-width: calc(1/3 * 100%);
         }
-        width: max(50%, 600px);
-        max-width: max(50%, 600px);
+        width: max(50%, 800px);
+        max-width: max(50%, 800px);
         scroll-snap-align: center;
         scroll-snap-type: mandatory;
         &.full {
             max-width: 100%;
             width: 100%;
         }
-        border: solid 1px;
-        border-bottom: solid 10px;
+        &.bordered {
+            border: solid 1px;
+            border-bottom: solid 10px;
+        }
+        &.shadowed {
+            box-shadow: 0px 0px 20px #0001;
+        }
         border-radius: 10px; 
         display: flex;
         flex-direction: column;

@@ -82,6 +82,7 @@
     let modalInfo = referenceMatrices[0] ?? null;
 
     let allowCustomReference = true;
+    let uploadRadio;
 
 </script>
 
@@ -98,10 +99,10 @@
             <div class="tab">
                 <div class="grid gap-4 w-full md:grid-cols-2">
                     {#if allowCustomReference}
-                        <Radio name="custom" custom value={"x"} bind:group={$referenceMatrix} class="uploader">
-                            <div class="inline-flex justify-between items-center p-0 h-full w-full text-gray-500 bg-white rounded-lg outline outline-1 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:outline-primary-600 peer-checked:text-primary-600 peer-checked:outline-4 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                <Dropzone class="w-full h-full no-outline">
-                                    <p class="text-gray-500 text-md flex flex-row gap-2"><UploadSolid class="w-5 h-5"/>Upload custom</p>
+                        <Radio name="custom" custom value={"x"} id="uploadRadio" bind:group={$referenceMatrix} class="uploader">
+                            <div class="inline-flex justify-between items-center p-0 h-full w-full text-gray-500 bg-white rounded-lg border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:outline-primary-600 peer-checked:text-primary-600 peer-checked:border-none peer-checked:outline peer-checked:outline-4 peer-checked:outline-solid hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                <Dropzone class="w-full h-full no-outline" on:click={() => document.querySelector("#uploadRadio").checked = true}>
+                                    <p class="text-md flex flex-row gap-2"><UploadSolid class="w-5 h-5"/>Upload custom</p>
                                 </Dropzone>
                             </div>
                         </Radio>
@@ -151,7 +152,6 @@
     :global(.uploader) {
         > div {
             @apply border-2 border-gray-300 cursor-pointer border-dashed;
-            outline: none !important;
         }
     }
     :global(.no-outline) {
