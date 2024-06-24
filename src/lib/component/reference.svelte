@@ -3,13 +3,13 @@
     import Slide from "./slide.svelte";
     import Upload from "./upload.svelte";
 
-    import { Button, Dropzone, Radio } from 'flowbite-svelte';
+    import { Button, Dropzone, Radio, Tooltip } from 'flowbite-svelte';
 
     import { BookOutline, DnaOutline, InfoCircleOutline, UploadSolid, UsersOutline } from 'flowbite-svelte-icons';
     
     export let next = false;
 
-    import { referenceMatrix } from '../../store.js';
+    import { referenceMatrix } from '../../store.ts';
 
     const referenceMatrices = [
         {
@@ -77,12 +77,35 @@
         },
     ]
 
+    let customMatrices = [
+        {
+            name: "custom1"
+        }
+    ];
+
     import { Modal } from 'flowbite-svelte';
+    import ReferenceOption from './referenceOption.svelte';
     let showInfoModal = false;
     let modalInfo = referenceMatrices[0] ?? null;
 
     let allowCustomReference = true;
-    let uploadRadio;
+
+    function addNewCustomReference(file) {
+        customMatrices.unshift({
+            "name": file
+        })
+        customMatrices = customMatrices;
+        console.log(customMatrices)
+    }
+
+    function updateModal(info) {
+        modalInfo = info;
+        showInfoModal = true;
+    }
+
+    function removeReference(mat) {
+        customMatrices = customMatrices.filter((x) => x.name !== mat.name)
+    }
 
 </script>
 
@@ -93,29 +116,29 @@
 </Modal>
 
 <Slide number="2" header="Choose reference" desc="Select a reference matrix of cell types to compute against">
-    <button on:click={() => console.log($referenceMatrix.complete)}>xyz</button>
     <div class="container">
         <div class="tabs">
             <div class="tab">
                 <div class="grid gap-4 w-full md:grid-cols-2">
                     {#if allowCustomReference}
-                        <Radio name="custom" custom value={"x"} id="uploadRadio" bind:group={$referenceMatrix} class="uploader">
-                            <div class="inline-flex justify-between items-center p-0 h-full w-full text-gray-500 bg-white rounded-lg border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:outline-primary-600 peer-checked:text-primary-600 peer-checked:border-none peer-checked:outline peer-checked:outline-4 peer-checked:outline-solid hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                <Dropzone class="w-full h-full no-outline" on:click={() => document.querySelector("#uploadRadio").checked = true}>
-                                    <p class="text-md flex flex-row gap-2"><UploadSolid class="w-5 h-5"/>Upload custom</p>
-                                </Dropzone>
-                            </div>
-                        </Radio>
+                        <div class="inline-flex justify-between items-center p-0 h-full w-full text-gray-500 bg-white rounded-lg border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:outline-primary-600 peer-checked:text-primary-600 peer-checked:border-none peer-checked:outline peer-checked:outline-4 peer-checked:outline-solid hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <Upload full={false} classStr={"w-full h-full"} update={addNewCustomReference}/>
+                        </div>
+                        <Tooltip>Upload a reference cell type matrix, where rows are cell types and columns are samples.</Tooltip>
                     {/if}
+                    {#each customMatrices as mat}
+                        <ReferenceOption type="custom" name="custom" mat={mat} removeReference={removeReference}/>
+                    {/each}
                     {#each referenceMatrices as mat}
-                        <Radio name="custom" custom value={mat} bind:group={$referenceMatrix} class="h-full">
+                        <ReferenceOption name="custom" mat={mat} updateModal={updateModal}/>
+                        <!-- <Radio name="custom" custom value={mat} bind:group={$referenceMatrix} class="h-full">
                             <div class="inline-flex justify-between items-center p-4 w-full h-full text-gray-500 bg-white rounded-lg outline outline-1 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:outline-primary-600 peer-checked:text-primary-600 peer-checked:outline-4 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                                 <div class="w-full">
                                     <div class="w-full text-lg font-semibold flex flex-row flex-grow-0 items-center justify-between">{mat.name}<button class="hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => {showInfoModal = true; modalInfo = mat}}><InfoCircleOutline class="w-5 h-5"/></button></div>
                                     <div class="w-full flex flex-row"><UsersOutline class="w-5 h-5 mr-2" />{mat.author}</div>
                                 </div>
                             </div>
-                        </Radio>
+                        </Radio> -->
                     {/each}
                 </div>
             </div>
