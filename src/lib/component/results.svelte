@@ -18,7 +18,7 @@
     <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
 </svelte:head>
 
-<div class={`results w-[100%] ${!$analysisResult ? 'empty' : 'min-h-[80vh]'}`}>
+<div class={`results w-[100%] ${!$analysisResult ? 'empty' : ''}`}>
     <Slide number="4" header="Results" full classStr="mb-8" hide={!$analysisResult}>
         <div class="results-container">
             <div class="results-drawer">

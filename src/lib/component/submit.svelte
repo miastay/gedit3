@@ -92,7 +92,7 @@
                 heatmap.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `/Downloads/${result.uid}_Heatmap.svg`);
                 heatmap.setAttribute('href', `/Downloads/${result.uid}_Heatmap.svg`);
                 $analysisResult = result;
-                scrollToResults();
+                setTimeout(() => scrollToResults(), 250);
             } else {
                 console.log("Failed to process result.")
             }
