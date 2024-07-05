@@ -84,11 +84,7 @@
         },
     ]
 
-    let customMatrices = [
-        {
-            name: "custom1"
-        }
-    ];
+    let customMatrices = [];
 
     import { Modal } from 'flowbite-svelte';
     import ReferenceOption from './referenceOption.svelte';
