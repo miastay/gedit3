@@ -10,9 +10,9 @@
         </NavBrand>
         <NavHamburger  />
         <NavUl ulClass="flex flex-col p-4 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 text-lg font-medium">
-            <NavLi href="/about">About</NavLi>
+            <NavLi href="/">About</NavLi>
             <NavLi href="/">Read the Paper</NavLi>
-            <NavLi href="/cite">Cite GEDIT</NavLi>
+            <NavLi href="https://scholar.google.com/scholar?cluster=10492765248119991160&hl=en&as_sdt=0,5#d=gs_cit&t=1719196159912&u=%2Fscholar%3Fq%3Dinfo%3AeGvBbWbKnZEJ%3Ascholar.google.com%2F%26output%3Dcite%26scirp%3D0%26scfhb%3D1%26hl%3Den">Cite GEDIT</NavLi>
         </NavUl>
     </Navbar>
 </div>

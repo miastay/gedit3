@@ -1,0 +1,4 @@
+@mixin slide {
+    width: max(600px, min(50%, 900px));
+    max-width: max(600px, min(50%, 900px));
+}

@@ -1,8 +1,10 @@
 <script>
+    import { Button } from 'flowbite-svelte';
     import Mixture from './mixture.svelte';
     import Reference from './reference.svelte';
     import Results from './results.svelte';
     import Settings from './settings.svelte';
+    import Submit from './submit.svelte';
 </script>
 
 <div class="main-container p-5">
@@ -15,8 +17,9 @@
         <Mixture />
         <Reference />
         <Settings />
+        <Submit />
+        <Results />
     </div>
-    <Results flipCollapse/>
 </div>
 
 <style lang="scss">
@@ -32,11 +35,9 @@
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
-            @apply gap-5;
             //min-height: 70%;
             height: max-content;
             width: 100%;
         }
-        scroll-snap-type: y mandatory;
     }
 </style>

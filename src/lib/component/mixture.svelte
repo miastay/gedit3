@@ -1,12 +1,14 @@
 <script>
+    import { mixtureMatrix, uploadedMixtureMatrix } from '../../store';
     import Examples from "./examples.svelte";
+    import Message from './message.svelte';
     import Slide from "./slide.svelte";
     import Upload from "./upload.svelte";
 
-    import { Button, Radio } from 'flowbite-svelte';
+    import { Alert, Banner, Button, Radio } from 'flowbite-svelte';
     import { Tabs, TabItem } from 'flowbite-svelte';
 
-    import { ArrowRightOutline, DnaOutline, InfoCircleOutline } from 'flowbite-svelte-icons';
+    import { CheckOutline, DnaOutline, ExclamationCircleOutline, FlagOutline, InfoCircleOutline } from 'flowbite-svelte-icons';
     
     export let next = false;
 
@@ -22,16 +24,36 @@
     ]
     let mixture;
 
+    function updateMixtureFile(file) {
+        console.log(file)
+        if(file === null) {
+            $uploadedMixtureMatrix = null;
+            $mixtureMatrix = null;
+            return;
+        }
+        $uploadedMixtureMatrix = {
+            "name": file.name,
+            "type": "custom",
+            "file": file
+        }
+        $mixtureMatrix = $uploadedMixtureMatrix;
+    }
+
+    let errorMsg = null;
+
 </script>
 
 <Slide number="1" header="Select mixture" desc="Select an expression dataset with an unknown cell type mixture">
     <div class="container">
         <div class="tabs">
             <Tabs tabStyle="pill">
-                <TabItem open>
+                <TabItem open on:click={() => $mixtureMatrix = $uploadedMixtureMatrix}>
                     <h3 slot="title">Upload gene expression data</h3>
                     <div class="tab">
-                        <Upload />
+                        <Upload type="mixture" allowMultiple={false} full={true} update={updateMixtureFile} error={(err) => errorMsg = err}/>
+                        {#if errorMsg}
+                            <Message message={errorMsg} />
+                        {/if}
                         <p class="desc">Upload a gene expression matrix where the first column is gene symbols and the first row is sample names. See an example input file <a href="/">here</a>.</p>
                     </div>
                 </TabItem>
@@ -39,7 +61,7 @@
                     <h3 slot="title">Use example data</h3>
                     <div class="tab">
                         {#each exampleMixtures as mix}
-                            <Radio name="example" custom value={mix} bind:group={mixture} class="h-full">
+                            <Radio name="example" custom value={mix} bind:group={mixture} on:click={() => $mixtureMatrix = mix} class="h-full">
                                 <div class="inline-flex justify-between items-center p-4 w-full h-full text-gray-500 bg-white rounded-lg outline outline-1 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:outline-primary-600 peer-checked:text-primary-600 peer-checked:outline-4 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                                     <div class="w-full">
                                         <div class="w-full text-lg font-semibold flex flex-row flex-grow-0 items-center justify-between">{mix.name ?? ""}<button class="hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => {showInfoModal = true; modalInfo = mat}}><InfoCircleOutline class="w-5 h-5"/></button></div>
@@ -72,6 +94,12 @@
     }
     :global([role="tabpanel"]) {
         margin-top: 0;
+        @apply px-0;
+        background: none !important;
+    }
+    :global(li[role="presentation"] > .active) {
+        background: none;
+        @apply text-primary-500 font-semibold outline outline-primary-500;
     }
     .container {
         display: flex;

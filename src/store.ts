@@ -21,10 +21,11 @@ import { writable } from "svelte/store";
 type ReferenceMatrix = {
     name: string,
     type: string,
+    file?: File,
     author?: string,
     sourceRef?: string,
     dataRef?: string,
-    celltypes: Array<string>,
+    cellTypes: Array<string>,
     selectedCellTypes: Array<string>,
     complete: boolean
 };
@@ -41,6 +42,17 @@ export const referenceMatrix = writable<ReferenceMatrix>()
 //     complete: false
 // });
 
+
+type MixtureMatrix = {
+    name: string,
+    type: string,
+    file?: File,
+    dataRef?: string
+};
+
+//export const mixtureMatrix = writable<MixtureMatrix>()
+export const mixtureMatrix = writable<MixtureMatrix>();
+export const uploadedMixtureMatrix = writable<MixtureMatrix>();
 
 export const collapseInputs = writable(false);
 
@@ -62,10 +74,21 @@ export const advancedSettings = writable<AdvancedSettings>({
         row: true,
         column: true
     },
-    primaryRankingMetric: "Minimum entropy",
-    rowScalingDegree: 0.0,
+    primaryRankingMetric: "Entropy",
+    rowScalingDegree: 0,
     signatureGenes: {
-        minimum: 0,
+        minimum: 10,
         average: 10
     }
 })
+
+export const customMatrices = writable([])
+
+export const loadingResults = writable(false);
+
+type Message = {
+    type: string,
+    message: string
+}
+export const analysisError = writable<Message>(undefined);
+export const analysisResult = writable(null);

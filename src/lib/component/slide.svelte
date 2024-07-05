@@ -17,28 +17,27 @@
 <div class={`slide-container border-gray-900 ${enabled ? 'enabled' : 'disabled'} ${full ? 'full': ''} ${classStr} ${bordered ? 'bordered' : ''} ${shadowed ? 'shadowed' : ''}`}>
     <div class="flex flex-row items-center justify-between">
         <div class="slide-header">
-            <h1 class="font-bold text-3xl">{number ?? 1}</h1>
+            <h1 class="text-3xl font-medium text-primary-700">{number ?? 1}</h1>
             <h2 class="text-2xl">{header}</h2>
         </div>
         <h4 class="text-gray-600">{desc}</h4>
     </div>
     <!-- {#if (flipCollapse ? !$collapseInputs : $collapseInputs)} -->
-        <div transition:slide|local>
+        <div class={`inner`} transition:slide|local>
             <slot />
         </div>
     <!-- {/if} -->
 </div>
 
 <style lang="scss">
+    @import '../style/containers.scss';
     .slide-container {
+        @include slide;
         &.row {
             width: calc(1/3 * 100%);
             max-width: calc(1/3 * 100%);
         }
-        width: max(50%, 800px);
-        max-width: max(50%, 800px);
         scroll-snap-align: center;
-        scroll-snap-type: mandatory;
         &.full {
             max-width: 100%;
             width: 100%;
