@@ -1,5 +1,5 @@
 <script>
-    import { Spinner } from 'flowbite-svelte';
+    import { Skeleton, Spinner } from 'flowbite-svelte';
     import { analysisResult, loadingResults } from '../../store';
     import Slide from './slide.svelte';
     import { onMount } from 'svelte';
@@ -21,9 +21,48 @@
 <div class={`results w-[100%] ${!$analysisResult ? 'empty' : ''}`}>
     <Slide number="4" header="Results" full classStr="mb-8" hide={!$analysisResult}>
         <div class="results-container">
-            <div class="results-drawer">
-                {#if $analysisResult}
-                    <p>{JSON.stringify($analysisResult)}</p>
+            <div class="results-drawer p-4">
+                {#if $analysisResult && !$loadingResults}
+                    <h2 class="text-2xl font-semibold">{$analysisResult.name ?? "Analysis Result"}</h2>
+                    <code>{$analysisResult.uid ?? "Unknown UID"}</code>
+                    <div class="mt-4 flex flex-col gap-4 analysis">
+                        <table class="block">
+                            <thead>Execution</thead>
+                            <tbody>
+                                <tr>
+                                    <td>Time Started</td>
+                                    <td>{$analysisResult.start_time ?? "Unknown"}</td>
+                                </tr>
+                                <tr>
+                                    <td>Execution Time</td>
+                                    <td>{$analysisResult.exec_time ?? "Unknown"}</td>
+                                </tr>
+                                <tr>
+                                    <td>Prediction Time</td>
+                                    <td>{$analysisResult.predict_time ?? "Unknown"}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="block">
+                            <thead>Details</thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cell Types</td>
+                                    <td>{$analysisResult.numCellTypes ?? "Unknown"}</td>
+                                </tr>
+                                <tr>
+                                    <td>Genes shared with reference</td>
+                                    <td>{$analysisResult.numSharedMix ?? "Unknown"}</td>
+                                </tr>
+                                <tr>
+                                    <td>Significant genes in mixture</td>
+                                    <td>{$analysisResult.numSigMix ?? "Unknown"}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {:else}
+                    <Skeleton size={"sm"} />
                 {/if}
             </div>
             <div class="results-render">
@@ -73,6 +112,12 @@
             min-height: 0px;
             height: 100px;
             overflow-y: hidden;
+        }
+    }
+    .analysis {
+        white-space: nowrap;
+        td {
+            @apply pl-4;
         }
     }
 </style>

@@ -56,17 +56,28 @@ export const uploadedMixtureMatrix = writable<MixtureMatrix>();
 
 export const collapseInputs = writable(false);
 
+export enum Colormap {
+    "Rocket" = "rocket",
+    "Viridis" = "viridis"
+}
+export enum RankingMetric {
+    "Entropy" = "Entropy",
+    "Zscore" = "Z-score"
+}
+
 type AdvancedSettings = {
     heatmapClustering: {
         row: boolean,
         column: boolean
     },
-    primaryRankingMetric: string,
+    primaryRankingMetric: RankingMetric,
     rowScalingDegree: number,
     signatureGenes: {
         minimum: number,
         average: number
-    }
+    },
+    colormap: Colormap,
+    showCellValues: boolean
 }
 
 export const advancedSettings = writable<AdvancedSettings>({
@@ -74,16 +85,17 @@ export const advancedSettings = writable<AdvancedSettings>({
         row: true,
         column: true
     },
-    primaryRankingMetric: "Entropy",
+    primaryRankingMetric: RankingMetric.Entropy,
     rowScalingDegree: 0,
     signatureGenes: {
         minimum: 10,
         average: 10
-    }
+    },
+    colormap: Colormap.Rocket,
+    showCellValues: true
 })
 
 export const customMatrices = writable([])
-
 export const loadingResults = writable(false);
 
 type Message = {

@@ -1,9 +1,8 @@
 <script>
-    import { Alert, Button, Spinner } from 'flowbite-svelte';
-    import { ArrowDownOutline, ArrowRightOutline } from 'flowbite-svelte-icons';
+    import { Button, Spinner } from 'flowbite-svelte';
+    import { ArrowRightOutline} from 'flowbite-svelte-icons';
     import { advancedSettings, analysisError, analysisResult, loadingResults, mixtureMatrix, referenceMatrix } from '../../store';
     import Message from './message.svelte';
-    import { Exception } from 'sass';
 
     const key = '6LfWCQYqAAAAANlVkMAH0b9k5IRl1Ch-VM-5ninF';
 
@@ -67,10 +66,12 @@
             if(!$advancedSettings.primaryRankingMetric) throw new ValidationError("Ranking metric not recognized")
             formData.append("Method", $advancedSettings.primaryRankingMetric)
 
-            formData.append("SampleClust", $advancedSettings.heatmapClustering.row)
-            formData.append("RefClust", $advancedSettings.heatmapClustering.column)
+            formData.append("SampleClust", $advancedSettings.heatmapClustering.row ? "True" : "False")
+            formData.append("RefClust", $advancedSettings.heatmapClustering.column ? "True" : "False")
 
-            console.log($advancedSettings.rowScalingDegree)
+            formData.append("Colormap", $advancedSettings.colormap)
+            formData.append("ShowCellValues", $advancedSettings.showCellValues ? "True" : "False")
+
             if(Number.parseFloat($advancedSettings.rowScalingDegree) < 0 || Number.parseFloat($advancedSettings.rowScalingDegree) > 1) throw new ValidationError("Row scaling degree must be in the range [0,1]")
             formData.append("RowScaling", $advancedSettings.rowScalingDegree)
 
@@ -126,14 +127,22 @@
     <form on:submit|preventDefault={onSubmit}>
         <Button type="submit" size="xl" class="bg-primary-600 text-nowrap min-w-[150px]">
             {#if !$loadingResults}
-                Run Analysis <ArrowDownOutline class="w-6 h-6 ml-2"/>
+            <div class='flex flex-row items-center'>
+                Run Analysis <ArrowRightOutline class="w-7 h-7 ml-2 mt-[1px]"/>
+            </div>
             {:else}
-                <Spinner size={6} />
+                <Spinner size={7} color={'white'} />
             {/if}
         </Button>
     </form>
     {#if $analysisError !== undefined}
         <Message message={$analysisError}/>
+    {/if}
+    {#if $loadingResults}
+        <Message message={{
+            type: "info",
+            message: "Queued run for analysis."
+        }}/>
     {/if}
 </div>
 

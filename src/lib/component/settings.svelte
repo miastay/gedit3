@@ -3,11 +3,11 @@
     import Slide from "./slide.svelte";
     import Upload from "./upload.svelte";
 
-    import { Button, Card, Dropdown, DropdownItem, Label, NumberInput, Radio, Range } from 'flowbite-svelte';
+    import { Button, Card, Dropdown, DropdownItem, Label, NumberInput, Radio, Range, Select } from 'flowbite-svelte';
     import { Tabs, TabItem } from 'flowbite-svelte';
 
-    import { AdjustmentsHorizontalOutline, ArrowRightOutline, ChevronDownOutline, CodeForkOutline, GridOutline, InfoCircleOutline, SortOutline } from 'flowbite-svelte-icons';
-    import { referenceMatrix, advancedSettings } from '../../store.ts';
+    import { AdjustmentsHorizontalOutline, ArrowRightOutline, ChevronDownOutline, CodeForkOutline, GridOutline, InfoCircleOutline, PenNibOutline, SortOutline } from 'flowbite-svelte-icons';
+    import { referenceMatrix, advancedSettings, RankingMetric, Colormap } from '../../store.ts';
 
     import { Checkbox } from 'flowbite-svelte';
     
@@ -50,59 +50,84 @@
                 {/if}
             </div>
             <div class="card w-[100%] grid grid-cols-2 gap-4">
+
+                <!-- Analysis Options -->
                 <div class="item">
-                    <div class="header">
+                    <div class="header mb-2">
                         <h4>
-                            <CodeForkOutline class="w-6 h-6 mt-1" />Heatmap Clustering
-                        </h4>
-                        <button class="text-gray-400 hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => console.log("Unimplemented")}><InfoCircleOutline class="w-5 h-5"/></button>
-                    </div>
-                    <div class="items">
-                        <Checkbox checked>Rows</Checkbox>
-                        <Checkbox checked>Columns</Checkbox>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="header">
-                        <h4>
-                            <SortOutline class="w-6 h-6 mt-1" />Ranking Metric
-                        </h4>
-                        <button class="text-gray-400 hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => console.log("Unimplemented")}><InfoCircleOutline class="w-5 h-5"/></button>
-                    </div>
-                    <div class="items">
-                        <Radio name="ranking-metric" value="Entropy" bind:group={$advancedSettings.primaryRankingMetric}>Minimum entropy</Radio>
-                        <Radio name="ranking-metric" value="Z-score" bind:group={$advancedSettings.primaryRankingMetric}>Z-score</Radio>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="header">
-                        <h4>
-                            <GridOutline class="w-6 h-6 mt-1" />Signature Genes per Cell Type
-                        </h4>
-                        <button class="text-gray-400 hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => console.log("Unimplemented")}><InfoCircleOutline class="w-5 h-5"/></button>
-                    </div>
-                    <div class="items row">
-                        <div>
-                            <NumberInput id="signatureGenes-average" min={$advancedSettings.signatureGenes.minimum} class="w-[100%]" bind:value={$advancedSettings.signatureGenes.average}></NumberInput>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="header">
-                        <h4>
-                            <AdjustmentsHorizontalOutline class="w-6 h-6 mt-1" />Degree of Row Scaling
+                            <AdjustmentsHorizontalOutline class="w-6 h-6 mt-1" />Analysis Options
                         </h4>
                         <button class="text-gray-400 hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => console.log("Unimplemented")}><InfoCircleOutline class="w-5 h-5"/></button>
                     </div>
                     <div class="items">
                         <div class="flex flex-row gap-4 items-center">
-                            <NumberInput class="w-[30%]" bind:value={$advancedSettings.rowScalingDegree}></NumberInput>
-                            <div class="w-[70%] h-[100%] flex flex-row items-center range-ticks">
-                                <Range size="sm" color="primary" bind:value={$advancedSettings.rowScalingDegree} max=1 min=0 step=0.01></Range>
-                            </div>
+                            <Label>
+                                <span class="font-semibold">Ranking Metric</span>
+                                <div class="flex flex-col gap-1 mt-1">
+                                    <Radio name="ranking-metric" value={RankingMetric.Entropy} bind:group={$advancedSettings.primaryRankingMetric}>Minimum entropy</Radio>
+                                    <Radio name="ranking-metric" value={RankingMetric.Zscore} bind:group={$advancedSettings.primaryRankingMetric}>Z-score</Radio>
+                                </div>
+                            </Label>
+                        </div>
+                        <div class="flex flex-row gap-4 items-center">
+                            <Label>
+                                <span class="label-span">Row Scaling</span>
+                                <div class="flex flex-row gap-4 items-center mt-1">
+                                    <NumberInput class="w-[30%]" bind:value={$advancedSettings.rowScalingDegree}></NumberInput>
+                                    <div class="w-[70%] h-[100%] flex flex-row items-center range-ticks">
+                                        <Range size="sm" color="primary" bind:value={$advancedSettings.rowScalingDegree} max=1 min=0 step=0.01></Range>
+                                    </div>
+                                </div>
+                            </Label>
+                        </div>
+                        <div class="flex flex-row gap-4 items-center">
+                            <Label>
+                                <span class="label-span">Signature Genes per Cell Type</span>
+                                <div class="items row mt-1">
+                                    <div>
+                                        <NumberInput id="signatureGenes-average" min={$advancedSettings.signatureGenes.minimum} class="w-[100%]" bind:value={$advancedSettings.signatureGenes.average}></NumberInput>
+                                    </div>
+                                </div>
+                            </Label>
                         </div>
                     </div>
                 </div>
+
+                <!-- Heatmap Options -->
+                <div class="item">
+                    <div class="header mb-2">
+                        <h4>
+                            <GridOutline class="w-6 h-6 mt-1" />Heatmap Options
+                        </h4>
+                        <button class="text-gray-400 hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => console.log("Unimplemented")}><InfoCircleOutline class="w-5 h-5"/></button>
+                    </div>
+                    <div class="items">
+                        <div class="flex flex-row gap-4 items-center">
+                            <Label>
+                                <span class="label-span">Colormap</span>
+                                <Select class="mt-1" items={Object.keys(Colormap).map((e, i) => {return {"name": e, "value": Object.values(Colormap)[i]}})} bind:value={$advancedSettings.colormap} />
+                            </Label>
+                        </div>
+                        <div class="flex flex-row gap-4 items-center">
+                            <Label>
+                                <span class="label-span">Clustering</span>
+                                <div class="mt-2 flex flex-row gap-4">
+                                    <Checkbox bind:checked={$advancedSettings.heatmapClustering.row}>Rows</Checkbox>
+                                    <Checkbox bind:checked={$advancedSettings.heatmapClustering.column}>Columns</Checkbox>
+                                </div>
+                            </Label>
+                        </div>
+                        <div class="flex flex-row gap-4 items-center">
+                            <Label>
+                                <span class="label-span">Miscellaneous</span>
+                                <div class="mt-2 flex flex-row gap-4">
+                                    <Checkbox bind:checked={$advancedSettings.showCellValues}>Show cell values?</Checkbox>
+                                </div>
+                            </Label>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 </div>
@@ -152,8 +177,12 @@
                 flex-direction: row;
                 @apply gap-4;
             }
-            @apply gap-1 ml-0;
+            @apply gap-5 ml-0;
         }
+    }
+
+    .label-span {
+        @apply font-semibold;
     }
 
     // .range-ticks {
