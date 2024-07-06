@@ -98,8 +98,7 @@
         background: none !important;
     }
     :global(li[role="presentation"] > .active) {
-        background: none;
-        @apply text-primary-500 font-semibold outline outline-primary-500;
+        @apply text-primary-700 bg-primary-100 font-semibold;
     }
     .container {
         display: flex;

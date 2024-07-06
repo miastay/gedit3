@@ -1,5 +1,5 @@
 <script>
-    import { Skeleton, Spinner } from 'flowbite-svelte';
+    import { Button, Skeleton, Spinner } from 'flowbite-svelte';
     import { analysisResult, loadingResults } from '../../store';
     import Slide from './slide.svelte';
     import { onMount } from 'svelte';
@@ -12,6 +12,8 @@
         })
     })
 
+    $analysisResult = JSON.parse('{"desc": "success", "uid": "b07bd462-3b4d-11ef-a86d-0050569a963b", "name": "gc_day4_proteincoding.txt", "exec_time": "0:00:13.879137", "predict_time": "0:00:00.355934", "start_time": "2024-07-05 21:10:30.479858", "numCellTypes": 22, "numSharedMix": 504, "numSharedRef": 504, "numSigMix": 220 }')
+
 </script>
 
 <svelte:head>
@@ -23,6 +25,7 @@
         <div class="results-container">
             <div class="results-drawer p-4">
                 {#if $analysisResult && !$loadingResults}
+                <div>
                     <h2 class="text-2xl font-semibold">{$analysisResult.name ?? "Analysis Result"}</h2>
                     <code>{$analysisResult.uid ?? "Unknown UID"}</code>
                     <div class="mt-4 flex flex-col gap-4 analysis">
@@ -61,6 +64,12 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="mt-6 flex flex-col w-full gap-2">
+                    <Button on:click={() => window.open(`/Downloads/${$analysisResult.uid}_Heatmap.svg`, '_blank')} class={'bg-primary-100 text-primary-700 hover:bg-primary-100'}>{`Download heatmap (SVG)`}</Button>
+                    <Button on:click={() => window.open(`/Downloads/${$analysisResult.uid}_SigMix.tsv`, '_blank')} class={'bg-primary-100 text-primary-700 hover:bg-primary-100'}>{`Download significant genes (TSV)`}</Button>
+                    <Button on:click={() => window.open(`/Downloads/${$analysisResult.uid}_SigMix.tsv`, '_blank')} class={'bg-primary-600 text-white hover:bg-primary-600'}>{`Download results (TSV)`}</Button>
+                </div>
                 {:else}
                     <Skeleton size={"sm"} />
                 {/if}
@@ -105,6 +114,11 @@
                     grid-area: container;
                 }
                 height: 800px;
+            }
+            .results-drawer {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
             }
         }
         &.empty {
