@@ -1,7 +1,7 @@
 <script>
     import { Button, Spinner } from 'flowbite-svelte';
     import { ArrowRightOutline} from 'flowbite-svelte-icons';
-    import { advancedSettings, analysisError, analysisResult, loadingResults, mixtureMatrix, referenceMatrix } from '../../store';
+    import { advancedSettings, analysisError, analysisResult, loadingResults, mixtureMatrix, referenceMatrix, Transpose } from '../../store';
     import Message from './message.svelte';
 
     const key = '6LfWCQYqAAAAANlVkMAH0b9k5IRl1Ch-VM-5ninF';
@@ -15,6 +15,7 @@
     let state = State.idle;
 
     function onSubmit() {
+        if($loadingResults || state == State.requesting) return;
         state = State.requesting;
         doRecaptcha();
     }
@@ -71,6 +72,9 @@
 
             formData.append("Colormap", $advancedSettings.colormap)
             formData.append("ShowCellValues", $advancedSettings.showCellValues ? "True" : "False")
+            formData.append("DrawCellOutlines", $advancedSettings.drawCellOutlines ? "True" : "False")
+            formData.append("SquareCells", $advancedSettings.squareCells ? "True" : "False")
+            formData.append("Transpose", $advancedSettings.transpose == Transpose.Cells ? "False" : "True")
 
             if(Number.parseFloat($advancedSettings.rowScalingDegree) < 0 || Number.parseFloat($advancedSettings.rowScalingDegree) > 1) throw new ValidationError("Row scaling degree must be in the range [0,1]")
             formData.append("RowScaling", $advancedSettings.rowScalingDegree)
@@ -90,8 +94,8 @@
             let result = await response.json();
             if(result?.desc === "success" && result.uid) {
                 let heatmap = document.querySelector("#heatmap")
-                heatmap.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `/Downloads/${result.uid}_Heatmap.svg`);
-                heatmap.setAttribute('href', `/Downloads/${result.uid}_Heatmap.svg`);
+                //heatmap.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `/Downloads/${result.uid}_Heatmap.svg`);
+                //heatmap.setAttribute('href', `/Downloads/${result.uid}_Heatmap.svg`);
                 $analysisResult = result;
                 setTimeout(() => scrollToResults(), 250);
             } else {

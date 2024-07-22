@@ -34,8 +34,8 @@
     .slide-container {
         @include slide;
         &.row {
-            width: calc(1/3 * 100%);
-            max-width: calc(1/3 * 100%);
+            width: 100%;
+            max-width: 100%;
         }
         scroll-snap-align: center;
         &.full {

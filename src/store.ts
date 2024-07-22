@@ -58,11 +58,16 @@ export const collapseInputs = writable(false);
 
 export enum Colormap {
     "Rocket" = "rocket",
-    "Viridis" = "viridis"
+    "Viridis" = "viridis",
+    "Gedit" = "gedit"
 }
 export enum RankingMetric {
     "Entropy" = "Entropy",
     "Zscore" = "Z-score"
+}
+export enum Transpose {
+    "Cells" = "Cells as columns",
+    "Samples" = "Samples as columns"
 }
 
 type AdvancedSettings = {
@@ -77,7 +82,10 @@ type AdvancedSettings = {
         average: number
     },
     colormap: Colormap,
-    showCellValues: boolean
+    showCellValues: boolean,
+    drawCellOutlines: boolean,
+    squareCells: boolean,
+    transpose: Transpose
 }
 
 export const advancedSettings = writable<AdvancedSettings>({
@@ -92,7 +100,10 @@ export const advancedSettings = writable<AdvancedSettings>({
         average: 10
     },
     colormap: Colormap.Rocket,
-    showCellValues: true
+    showCellValues: true,
+    drawCellOutlines: true,
+    squareCells: false,
+    transpose: Transpose.Samples,
 })
 
 export const customMatrices = writable([])

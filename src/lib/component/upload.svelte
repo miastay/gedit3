@@ -72,7 +72,7 @@
                 let numGenes = genes.length - 1;
                 let longestGene = Math.max(...genes.map((x) => x.split(sep)[0].length))
                 console.log(longestGene)
-                if(numGenes <= 2 || longestGene >= 20) {
+                if(numGenes <= 2) {
                     error({
                         message: "Unable to detect gene symbols. Make sure the first line of your file consists of HGNC gene symbols, eg. 'CASP9'.",
                         type: "error"
@@ -84,6 +84,11 @@
                 } else if(numGenes < 50) {
                     error({
                         message: `Only ${numGenes} columns detected. Your mixture should contain enough genes to generate a successful signature.`,
+                        type: "warning"
+                    })
+                } else if(longestGene >= 20) {
+                    error({
+                        message: `Some gene names longer than expected. Make sure the first column contains valid HGNC gene symbols.`,
                         type: "warning"
                     })
                 } else {

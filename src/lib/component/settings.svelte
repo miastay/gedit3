@@ -7,7 +7,7 @@
     import { Tabs, TabItem } from 'flowbite-svelte';
 
     import { AdjustmentsHorizontalOutline, ArrowRightOutline, ChevronDownOutline, CodeForkOutline, GridOutline, InfoCircleOutline, PenNibOutline, SortOutline } from 'flowbite-svelte-icons';
-    import { referenceMatrix, advancedSettings, RankingMetric, Colormap } from '../../store.ts';
+    import { referenceMatrix, advancedSettings, RankingMetric, Colormap, Transpose } from '../../store.ts';
 
     import { Checkbox } from 'flowbite-svelte';
     
@@ -122,6 +122,21 @@
                                 <span class="label-span">Miscellaneous</span>
                                 <div class="mt-2 flex flex-row gap-4">
                                     <Checkbox bind:checked={$advancedSettings.showCellValues}>Show cell values?</Checkbox>
+                                </div>
+                                <div class="mt-2 flex flex-row gap-4">
+                                    <Checkbox bind:checked={$advancedSettings.drawCellOutlines}>Draw cell outlines?</Checkbox>
+                                </div>
+                                <div class="mt-2 flex flex-row gap-4">
+                                    <Checkbox bind:checked={$advancedSettings.squareCells}>Square cells?</Checkbox>
+                                </div>
+                                <div class="mt-4">
+                                    <Label>
+                                        <span class="font-semibold">Orientation</span>
+                                        <div class="mt-2 flex flex-row gap-4">
+                                            <Radio name="transpose" value={Transpose.Samples} bind:group={$advancedSettings.transpose}>Samples as columns</Radio>
+                                            <Radio name="transpose" value={Transpose.Cells} bind:group={$advancedSettings.transpose}>Cells as columns</Radio>
+                                        </div>
+                                    </Label>
                                 </div>
                             </Label>
                         </div>
