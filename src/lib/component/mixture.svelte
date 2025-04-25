@@ -54,7 +54,7 @@
                         {#if errorMsg}
                             <Message message={errorMsg} />
                         {/if}
-                        <p class="desc">Upload a gene expression matrix where the first column is gene symbols and the first row is sample names. See an example input file <a href="/">here</a>.</p>
+                        <p class="desc">Upload a gene expression matrix where the first column is gene symbols and the first row is sample names. See an example input file <a href="/mixtureExample.csv">here</a>.</p>
                     </div>
                 </TabItem>
                 <TabItem>

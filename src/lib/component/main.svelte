@@ -6,7 +6,14 @@
     import Submit from './submit.svelte';
     import Message from './message.svelte';
     import Blurb from './blurb.svelte';
-    import TabulaSapiens from './tabulaSapiens.svelte';
+    import { onMount } from 'svelte';
+
+    let isSafari = false;
+
+    onMount(() => {
+        isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    })
+
 </script>
 
 <div class="main-container p-5">
@@ -28,8 +35,16 @@
                         </div>
                     </Message>
                 </div>
+                {#if isSafari}
+                    <div class="announcement">
+                        <Message message={{ type: "error" }}>
+                            <div>
+                                This version of GEDIT is not well supported on Safari. Please consider using a different browser.
+                            </div>
+                        </Message>
+                    </div>
+                {/if}
                 <Mixture />
-                <TabulaSapiens />
                 <Reference />
                 <Settings />
                 <Submit />
@@ -44,6 +59,10 @@
 
 <style lang="scss">
     @import '../style/containers.scss';
+
+    :global(body) {
+        overflow: hidden;
+    }    
     .main-container {
         height: auto;
         overflow-y: scroll;

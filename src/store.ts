@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { readonly, writable } from "svelte/store";
 
 // class ReferenceMatrix {
 
@@ -115,3 +115,19 @@ type Message = {
 }
 export const analysisError = writable<Message>(undefined);
 export const analysisResult = writable(null);
+
+export const tabulaSapiensOptions = writable<ReferenceMatrix[]>(
+    [
+        {
+            name: "LM22",
+            author: "Newman et al",
+            type: "RNA-seq",
+            file: null,
+            sourceRef: "https://www.nature.com/articles/nmeth.3337",
+            dataRef: "http://webtools.mcdb.ucla.edu/Downloads/LM22.tsv",
+            cellTypes: ["B_cells_naive","B_cells_memory","Plasma_cells","T_cells_CD8","T_cells_CD4_naive","T_cells_CD4_memory_resting","T_cells_CD4_memory_activated","T_cells_follicular_helper","T_cells_regulatory_Tregs","T_cells_gamma_delta","NK_cells_resting","NK_cells_activated","Monocytes","Macrophages_M0","Macrophages_M1","Macrophages_M2","Dendritic_cells_resting","Dendritic_cells_activated","Mast_cells_resting","Mast_cells_activated","Eosinophils","Neutrophils"],
+            selectedCellTypes: ["B_cells_naive","B_cells_memory","Plasma_cells","T_cells_CD8","T_cells_CD4_naive","T_cells_CD4_memory_resting","T_cells_CD4_memory_activated","T_cells_follicular_helper","T_cells_regulatory_Tregs","T_cells_gamma_delta","NK_cells_resting","NK_cells_activated","Monocytes","Macrophages_M0","Macrophages_M1","Macrophages_M2","Dendritic_cells_resting","Dendritic_cells_activated","Mast_cells_resting","Mast_cells_activated","Eosinophils","Neutrophils"]
+        }, 
+    ]
+)
+export const tabulaSapiens = readonly<ReferenceMatrix[]>(tabulaSapiensOptions)
