@@ -10,6 +10,9 @@
     import { referenceMatrix, advancedSettings, RankingMetric, Colormap, Transpose } from '../../store.ts';
 
     import { Checkbox } from 'flowbite-svelte';
+    import { Modal } from 'flowbite-svelte';
+
+    let showAnalysisOptionsModal = false;
     
     export let next = false;
 
@@ -17,6 +20,16 @@
     export let allowCollapse = false;
 
 </script>
+
+<Modal title={"Analysis Options"} bind:open={showAnalysisOptionsModal} autoclose outsideclose class="max-w-[40vw]">
+    <p class="text-base flex flex-row items-center leading-relaxed text-gray-500 dark:text-gray-400"><strong>Ranking metric&nbsp;</strong>is the scoring method used to predict cell types.</p>
+    <ul class="ml-8">
+        <li><strong>Minimum entropy</strong> computes probabilities by information entropy (H). <u>This method tends to have the lowest error.</u></li>
+        <li><strong>Z-score</strong> computes probabilities by normalizing input data.</li>
+    </ul>
+    <p><strong>Row scaling&nbsp;</strong>rescales the expression values into the range [1, Max<sup>p</sup>] where p is the parameter provided. <u>Zero works well in most cases.</u></p>
+    <p><strong>Signature genes per cell type&nbsp;</strong>increases the number of signature genes used to predict cell types. <u>50 genes works best in many simulations.</u></p>
+</Modal>
 
 <Slide number="3" header="Configure run">
     <div class="container w-[100%]">
@@ -57,7 +70,7 @@
                         <h4>
                             <AdjustmentsHorizontalOutline class="w-6 h-6 mt-1" />Analysis Options
                         </h4>
-                        <button class="text-gray-400 hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => console.log("Unimplemented")}><InfoCircleOutline class="w-5 h-5"/></button>
+                        <button class="text-gray-400 hover:bg-gray-200 dark:bg-gray-600 ml-4 p-1 rounded-md" on:click={() => showAnalysisOptionsModal = true}><InfoCircleOutline class="w-5 h-5"/></button>
                     </div>
                     <div class="items">
                         <div class="flex flex-row gap-4 items-center">
@@ -73,7 +86,7 @@
                             <Label>
                                 <span class="label-span">Row Scaling</span>
                                 <div class="flex flex-row gap-4 items-center mt-1">
-                                    <NumberInput class="w-[30%]" bind:value={$advancedSettings.rowScalingDegree}></NumberInput>
+                                    <NumberInput class="w-[30%]" bind:value={$advancedSettings.rowScalingDegree} max=1 min=0 step=0.05></NumberInput>
                                     <div class="w-[70%] h-[100%] flex flex-row items-center range-ticks">
                                         <Range size="sm" color="primary" bind:value={$advancedSettings.rowScalingDegree} max=1 min=0 step=0.01></Range>
                                     </div>

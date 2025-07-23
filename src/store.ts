@@ -96,8 +96,8 @@ export const advancedSettings = writable<AdvancedSettings>({
     primaryRankingMetric: RankingMetric.Entropy,
     rowScalingDegree: 0,
     signatureGenes: {
-        minimum: 10,
-        average: 10
+        minimum: 50,
+        average: 50
     },
     colormap: Colormap.Rocket,
     showCellValues: true,

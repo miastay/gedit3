@@ -11,7 +11,10 @@ export default {
 			fallback: undefined,
 			precompress: false,
 			strict: false
-		})
+		}),
+		prerender: {
+			handleHttpError: "warn"
+		}
 	},
 	preprocess: [ vitePreprocess() ]
 };

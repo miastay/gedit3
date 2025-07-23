@@ -102,9 +102,9 @@
             }
             if(type === "reference") {
                 // first line is cell types
-                let cellTypes = firstLine.split(",")
-                if(cellTypes.length < firstLine.split("\t").length) {
-                    cellTypes = firstLine.split("\t")
+                let cellTypes = firstLine.trim().split(",")
+                if(cellTypes.length < firstLine.trim().split("\t").length) {
+                    cellTypes = firstLine.trim().split("\t")
                 }
                 let numCells = cellTypes.length;
                 let numGenes = text.split('\n').length;
